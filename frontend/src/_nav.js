@@ -12,6 +12,11 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilSettings,
+  cilBuilding,
+  cilUser,
+  cilList,
+  cilChatBubble
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -26,6 +31,54 @@ const _nav = [
       text: 'NEW',
     },
   },
+  {
+    component: CNavItem,
+    name: 'Engagement Customization',
+    to: '/engagement-customization',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,  // Optional icon
+  },
+  {
+    component: CNavItem,
+    name: 'Survey',
+    to: '/survey', // Path to the survey page
+    icon: <CIcon icon={cilList} customClassName="nav-icon" />, // Adjust icon as you see fit
+  },
+  {
+    component: CNavItem,
+    name: 'AI Chatbot',
+    to: '/ai',
+    icon: <CIcon icon={cilChatBubble} customClassName="nav-icon" />, // You can choose a relevant icon
+  },
+  {
+    component: CNavItem,
+    name: 'Member Timeline',
+    to: '/member-timeline',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Branding Upload',
+    to: '/branding-upload',
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />, // Choose an appropriate icon
+  },
+  {
+    component: CNavItem,
+    name: 'Connections',
+    to: '/connections',
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Location Configuration',
+    to: '/location-configuration',
+    icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,  // You can choose any icon here
+  },
+  {
+  component: CNavItem,
+  name: 'Class Schedule',
+  to: '/class-schedule',
+  icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+},
   {
     component: CNavTitle,
     name: 'Theme',

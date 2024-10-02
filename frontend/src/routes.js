@@ -1,8 +1,19 @@
 import React from 'react'
+import EngagementCustomization from './views/Engagement/EngagementCustomization'
+import BrandingUpload from './views/Branding/BrandingUpload'
+import ConnectionsPage from './views/Twilio/TwilioConnection'
+import ClassSchedule from './views/ClassSchedule/ClassSchedule'
+import LocationConfiguration from './views/Location/LocationConfiguration'
+import SurveyPage from './views/Survey/SurveyForm' // Adjust path as necessary
+import ChatbotAI from './views/AI/AI'
+
+
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+const MemberTimeline = React.lazy(() => import('./views/MemberTimeline/MemberTimeline'))
+
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -49,15 +60,24 @@ const Badges = React.lazy(() => import('./views/notifications/badges/Badges'))
 const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
+
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/survey', name: 'Survey', element: SurveyPage },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/branding-upload', name: 'Branding Upload', element: BrandingUpload },
+  { path: '/class-schedule', name: 'Class Schedule', element: ClassSchedule },
+  { path: '/location-configuration', name: 'Location Configuration', element: LocationConfiguration },
+  { path: '/engagement-customization', name: 'Engagement Customization', element: EngagementCustomization},
+  { path: '/connections', name: 'Connections', element: ConnectionsPage },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
+  { path: '/ai', name: 'AI Chatbot', element: ChatbotAI },
   { path: '/theme/typography', name: 'Typography', element: Typography },
   { path: '/base', name: 'Base', element: Cards, exact: true },
+  { path: '/member-timeline/:memberId', name: 'Member Timeline', element: MemberTimeline },
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },
   { path: '/base/cards', name: 'Cards', element: Cards },
