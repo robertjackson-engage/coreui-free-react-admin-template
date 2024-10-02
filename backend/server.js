@@ -1,52 +1,59 @@
 const express = require('express');
-const axios = require('axios');
-const path = require('path');
-const cors = require('cors');
+const axios = require('axios'); 
+const cors = require('cors'); // Import the CORS middleware
 const dotenv = require('dotenv');
+const path = require('path');
+const OpenAI = require('openai'); // Import the OpenAI SDK
 
-// Initialize dotenv to load environment variables from the .env file
-dotenv.config();
+dotenv.config(); // Load environment variables from the .env file
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware to handle JSON and enable CORS
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow requests from your frontend
+  methods: ['GET', 'POST'], // Allowed methods
+  credentials: true, // Include credentials if needed (cookies, etc.)
+};
+
+// Apply the CORS middleware with the options
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// Serve the static files from the React app (build folder)
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // API Key from environment variable
+});
 
-// Chat API route to interact with OpenAI
+// Endpoint for handling chat requests
 app.post('/api/chat', async (req, res) => {
   const { messageHistory } = req.body;
 
   try {
-    // Send the messageHistory to OpenAI's API
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-      model: 'gpt-3.5-turbo', // You can use 'gpt-4' if available
+    // OpenAI API call to generate a chat completion
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4', // Or 'gpt-3.5-turbo'
       messages: messageHistory,
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
     });
 
-    // Extract the AI's reply from OpenAI's response
-    const reply = response.data.choices[0].message.content;
-    res.json({ reply });
+    // Send the AI response back to the frontend
+    res.json({ reply: completion.choices[0].message.content });
   } catch (error) {
     console.error('Error interacting with OpenAI:', error);
     res.status(500).json({ error: 'Failed to interact with AI' });
   }
 });
 
-// Catch-all route to serve the React app for unknown routes
+// Serve static files from the frontend
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+// Catch-all route to serve the React app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
